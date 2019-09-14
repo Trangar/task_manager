@@ -40,7 +40,20 @@ impl AsyncNotifier for TcpListener {
     }
 }
 
-pub struct TcpStream(StdTcpStream, SocketAddr);
+pub struct TcpStream(pub(crate) StdTcpStream, SocketAddr);
+
+impl TcpStream {
+    pub fn try_clone(&self) -> std::io::Result<Self> {
+        let cloned = self.0.try_clone()?;
+        Ok(TcpStream(cloned, self.1))
+    }
+
+    pub fn send(&self, context: &mut crate::Context, buffer: &[u8]) -> std::io::Result<()> {
+        let task = crate::tasks::TcpStreamWriteTask::new(self, buffer)?;
+        task.run(context);
+        Ok(())
+    }
+}
 
 impl From<(StdTcpStream, SocketAddr)> for TcpStream {
     fn from((stream, addr): (StdTcpStream, SocketAddr)) -> TcpStream {

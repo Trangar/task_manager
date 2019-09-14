@@ -52,7 +52,12 @@ impl TryTask for ClientTask {
         let buffer = self.stream.read_until_block()?;
         println!("Client send {:?}", std::str::from_utf8(&buffer));
 
-        context.register_async(&self.stream).with_boxed(self)?;
+        if buffer.ends_with(b"\r\n\r\n") {
+            self.stream
+                .send(context, b"HTTP/2.0 200 OK\r\n\r\nHello!")?;
+        } else {
+            context.register_async(&self.stream).with_boxed(self)?;
+        }
 
         Ok(())
     }
