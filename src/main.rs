@@ -28,7 +28,7 @@ impl TryTask for ListenerTask {
             println!("Accepted connection from {}", stream.addr());
             context
                 .register_async(&stream)
-                .with(ClientTask { stream })?;
+                .with(ClientTask::new(stream))?;
         }
 
         context.register_async(&self.listener).with_boxed(self)?;
@@ -43,6 +43,16 @@ impl TryTask for ListenerTask {
 
 struct ClientTask {
     stream: TcpStream,
+    buffer: Vec<u8>,
+}
+
+impl ClientTask {
+    pub fn new(stream: TcpStream) -> Self {
+        Self {
+            stream,
+            buffer: Vec::new(),
+        }
+    }
 }
 
 impl TryTask for ClientTask {
@@ -50,9 +60,11 @@ impl TryTask for ClientTask {
 
     fn try_execute(mut self: Box<Self>, context: &mut Context) -> std::io::Result<()> {
         let buffer = self.stream.read_until_block()?;
-        println!("Client send {:?}", std::str::from_utf8(&buffer));
+        self.buffer.extend_from_slice(&buffer);
 
-        if buffer.ends_with(b"\r\n\r\n") {
+        println!("Buffer: {:?}", std::str::from_utf8(&self.buffer));
+
+        if buffer.windows(4).any(|window| window == b"\r\n\r\n") {
             self.stream
                 .send(context, b"HTTP/2.0 200 OK\r\n\r\nHello!")?;
         } else {

@@ -20,7 +20,6 @@ impl Task for TcpStreamWriteTask {
     fn execute(mut self: Box<Self>, context: &mut Context) {
         while !self.1.is_empty() {
             let write_result = (self.0).0.write(&self.1);
-            println!("Write result {:?}", write_result);
             let len = match write_result {
                 Ok(len) => len,
                 Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => break,
