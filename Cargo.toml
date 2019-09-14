@@ -1,0 +1,11 @@
+[package]
+name = "task_manager"
+version = "0.1.0"
+authors = ["Victor Koenders <victor.koenders@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+
+[target.'cfg(unix)'.dependencies]
+epoll = "4.1.0"
+libc = "0.2.62"
