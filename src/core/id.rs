@@ -16,7 +16,7 @@ impl ID {
         unsafe { ID::new_unchecked(index, generation) }
     }
 
-    pub unsafe fn new_unchecked(index: u32, generation: u8) -> ID {
+    pub(crate) unsafe fn new_unchecked(index: u32, generation: u8) -> ID {
         ID((u32::from(generation) << GENERATION_SHIFT) | index)
     }
 
