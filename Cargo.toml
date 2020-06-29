@@ -7,5 +7,5 @@ edition = "2018"
 [dependencies]
 
 [target.'cfg(unix)'.dependencies]
-epoll = "4.3.0"
+epoll = "4.3.1"
 libc = "0.2.71"
