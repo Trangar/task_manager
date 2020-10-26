@@ -4,30 +4,28 @@
 name = "bitflags"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "epoll"
 version = "4.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "20df693c700404f7e19d4d6fae6b15215d2913c27955d2b9d6f2c0f537511cd0"
 dependencies = [
- "bitflags 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.79 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bitflags",
+ "libc",
 ]
 
 [[package]]
 name = "libc"
-version = "0.2.79"
+version = "0.2.80"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4d58d1b70b004888f764dfbf6a26a3b0342a1632d33968e4a179d8011c760614"
 
 [[package]]
 name = "task_manager"
 version = "0.1.0"
 dependencies = [
- "epoll 4.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.79 (registry+https://github.com/rust-lang/crates.io-index)",
+ "epoll",
+ "libc",
 ]
-
-[metadata]
-"checksum bitflags 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
-"checksum epoll 4.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "20df693c700404f7e19d4d6fae6b15215d2913c27955d2b9d6f2c0f537511cd0"
-"checksum libc 0.2.79 (registry+https://github.com/rust-lang/crates.io-index)" = "2448f6066e80e3bfc792e9c98bf705b4b0fc6e8ef5b43e5889aff0eaa9c58743"
